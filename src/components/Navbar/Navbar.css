@@ -1,0 +1,10 @@
+.navbar {
+  height: 52px;
+}
+
+.navbar-brand img {
+  height: 36px;
+}
+
+.navbar-default .navbar-nav li:hover {
+}

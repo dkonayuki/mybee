@@ -1,5 +1,158 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  font-size: 12px;
+  background-color: #f1f1f1;
+  font-family: "Lato", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, sans-serif;
+}
+
+p, ol, ul, td {
+  font-family: "Lato", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, sans-serif;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0px;
+}
+
+textarea {
+  resize: none
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: #666;
+}
+
+a:hover, a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+.btn-green, .btn-green:focus, .btn-green[disabled]:focus, .btn-green:active:focus {
+  border-top: none;
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+  border-bottom: 2px solid #5CB85C; 
+}
+
+.btn-green:hover, .btn-green:active, .btn-green:active:hover {
+  color: #fff;
+  background-color: #6dc96d;
+  border-color: #6dc96d;
+  border-bottom-color: #4ba74b; 
+}
+
+.btn-purple, .btn-purple:focus, .btn-purple[disabled]:focus, .btn-purple:active:focus {
+  border-top: none;
+  color: #fff;
+  background-color: #ad6e8d;
+  border-color: #ad6e8d;
+  border-bottom: 2px solid #ad6e8d; 
+}
+
+.btn-purple:hover, .btn-purple:active, .btn-purple:active:hover {
+  color: #fff;
+  background-color: #ad6e8d;
+  border-color: #ad6e8d;
+  border-bottom-color: #9b4c6b; 
+}
+
+.btn-red, .btn-red:focus, .btn-red[disabled]:focus, .btn-red:active:focus {
+  border: none;
+  color: #fff;
+  background-color: #c0392b;
+  border-color: #c0392b;
+  border-bottom: 2px solid #c0392b;
+}
+
+.btn-red:hover, .btn-red:active, .btn-red:active:hover {
+  background-color: #d14a3c;
+  color: #fff;
+  border-color: #d14a3c;
+  border-bottom-color: #b0281a;
+}
+
+.btn-blue, .btn-blue:focus, .btn-blue[disabled]:focus, .btn-blue:active:focus {
+  border: none;
+  color: #fff;
+  background-color: #3498DB;
+  border-color: #3498DB;
+  border-bottom: 2px solid #3498DB;
+}
+
+.btn-blue:hover, .btn-blue:active, .btn-blue:active:hover {
+  background-color: #45A9EC;
+  color: #fff;
+  border-color: #45A9EC;
+  border-bottom-color: #2387ca;
+}
+
+.btn-orange, .btn-orange:focus, .btn-orange[disabled]:focus, .btn-orange:active:focus {
+  border-top: none;
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+  border-bottom: 2px solid #f0ad4e; 
+}
+
+.btn-orange:hover, .btn-orange:active, .btn-orange:active:hover {
+  color: #fff;
+  background-color: #f1be5f;
+  border-color: #f1be5f;
+  border-bottom-color: #e09c3d; 
+}
+
+.btn-green.disabled:hover, .btn-green[disabled]:hover {
+  color: #fff;
+  background-color: #5cb85c;
+  border-bottom-color: #5cb85c; 
+}
+.btn-blue.disabled:hover, .btn-blue[disabled]:hover {
+  color: #fff;
+  background-color: #3498DB;
+  border-bottom-color: #3498DB;
+}
+.btn-purple.disabled:focus, .btn-purple[disabled]:hover {
+  color: #fff;
+  background-color: #ad6e8d;
+  border-bottom-color: #ad6e8d;
+}
+.btn-red.disabled:focus, .btn-red[disabled]:hover {
+  color: #fff;
+  background-color: #c0392b;
+  border-bottom-color: #c0392b;
+}
+.btn-orange.disabled:focus, .btn-orange[disabled]:hover {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-bottom-color: #f0ad4e;
+}
+
+.button {
+  cursor: pointer;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+.button:active, .button.active {
+    outline: 0;
+    background-image: none;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.button.disabled, .button[disabled] {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    box-shadow: none;
+    opacity: .65;
 }
