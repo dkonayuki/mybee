@@ -1,5 +1,11 @@
 .navbar {
   height: 52px;
+  z-index: 2;
+}
+
+@media (max-width: 767px)
+.navbar .container {
+  background: #fff;
 }
 
 .navbar-brand img {

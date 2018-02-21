@@ -34,6 +34,7 @@ function Navbar({
             <img src={logo} alt="" />
           </Link>
         </BootstrapNavbar.Brand>
+        <BootstrapNavbar.Toggle />
       </BootstrapNavbar.Header>
       <BootstrapNavbar.Collapse>
         <Nav>
@@ -48,7 +49,7 @@ function Navbar({
           </LinkContainer>
         </Nav>
         {loggedIn ?
-          <div className="avatar">
+          <div className="avatar hidden-xs">
             <img src={pictureUrl} className="avatar-image avatar-image--icon" alt="avatar" />
           </div>
         :
