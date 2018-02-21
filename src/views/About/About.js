@@ -1,10 +1,14 @@
 import React from 'react';
 import Page from '../../components/Page';
 import Box from '../../components/Box';
+import { Helmet } from 'react-helmet';
 
 function About() {
   return (
     <Page>
+      <Helmet>
+        <title>About</title>
+      </Helmet>
       <Box
         withTitle
         title="About"
