@@ -3,9 +3,14 @@
   z-index: 2;
 }
 
-@media (max-width: 767px)
-.navbar .container {
-  background: #fff;
+@media (max-width: 767px) {
+  .navbar .container {
+    background: #fff;
+  }
+
+  .navbar-collapse {
+    border-bottom: 1px solid #e7e7e7;
+  }
 }
 
 .navbar-brand img {

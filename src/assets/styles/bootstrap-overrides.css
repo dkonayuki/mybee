@@ -20,6 +20,10 @@ a:focus {
   box-shadow: none;
 }
 
+.navbar-toggle {
+  border-radius: 0;
+}
+
 .navbar-brand {
   height: auto;
   max-height: 54px;
