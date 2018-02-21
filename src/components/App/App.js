@@ -3,10 +3,10 @@ import '../../assets/styles/bootstrap-overrides.css';
 import '../../assets/styles/common.css';
 
 import React from 'react';
-import Navbar from '../Navbar';
+import Router from '../../routes/Router';
 
 function App() {
-  return <Navbar />;
+  return <Router />;
 }
 
 export default App;
