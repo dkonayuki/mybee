@@ -23,7 +23,9 @@ const environments = {
 const envConsts = environments[process.env.NODE_ENV];
 
 const CONSTANTS = Object.assign({}, envConsts, {
-
+  ACTION_TYPES: {
+    STORE_USER: 'STORE_USER'
+  }
 });
 
 export default CONSTANTS;

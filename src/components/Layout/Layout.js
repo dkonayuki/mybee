@@ -5,7 +5,9 @@ import Footer from '../Footer';
 
 import './Layout.css';
 
-function Layout({ children }) {
+function Layout({
+  children
+}) {
   return (
     <div className="root-container">
       <div className="wrapper">

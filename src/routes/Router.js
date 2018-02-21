@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   BrowserRouter,
   Route
@@ -6,17 +7,30 @@ import {
 import Layout from '../components/Layout';
 import About from '../views/About';
 import RecipePage from '../views/RecipePage';
+import {
+  user,
+  visitor
+} from '../utils/AuthorizationHelper';
+import { connect } from 'react-redux';
 
-function Router() {
+function Router({ role }) {
   return (
     <BrowserRouter>
       <Layout>
-        <Route exact path="/" component={RecipePage} />
-        <Route path="/about" component={About} />
-        <Route path="/recipe" component={RecipePage} />
+        <Route exact path="/" component={visitor(About, role)} />
+        <Route path="/about" component={visitor(About, role)} />
+        <Route path="/recipe" component={user(RecipePage, role)} />
       </Layout>
     </BrowserRouter>
   );
 }
 
-export default Router;
+Router.propTypes = {
+  role: PropTypes.number.isRequired
+};
+
+function mapStateToProps(state) {
+  return { role: state.user.role };
+}
+
+export default connect(mapStateToProps)(Router);
