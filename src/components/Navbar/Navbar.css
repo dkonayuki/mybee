@@ -32,7 +32,7 @@
   cursor: pointer;
 }
 
-.avatar {
+.user-menu {
   display: block;
   white-space: nowrap;
   overflow: visible;
@@ -40,7 +40,7 @@
   line-height: normal;
   position: relative;
   float: right;
-  margin-top: 10px;
+  font-size: 13px;
 }
 
 .avatar-image--icon {
@@ -53,4 +53,27 @@
   vertical-align: middle;
   -webkit-border-radius: 100%;
   border-radius: 100%;
+}
+
+.user-menu .dropdown {
+  height: 50px;
+}
+
+.user-menu .dropdown-toggle {
+  height: 100%;
+  border: none;
+}
+
+.user-menu .btn:active, .user-menu .btn.active {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.user-menu .btn-group.open .dropdown-toggle {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.user-menu .dropdown-menu svg {
+  margin-right: 10px;
 }

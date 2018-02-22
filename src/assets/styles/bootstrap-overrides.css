@@ -42,10 +42,15 @@ a:focus {
 
 .dropdown-menu {
   font-size: 12px;
+  margin: 0;
 }
 
 .dropdown-menu > li > a {
   padding: 5px 20px;
+}
+
+.dropup .dropdown-menu, .navbar-fixed-bottom .dropdown .dropdown-menu {
+  margin-bottom: 0;
 }
 
 .btn {

@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import {
   Navbar as BootstrapNavbar,
   NavItem,
-  Nav
+  Nav,
+  Dropdown,
+  MenuItem
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
@@ -24,6 +26,10 @@ function Navbar({
   function handleLogin() {
     // perform login
     window.FB.login(() => checkLoginState(onStoreUser));
+  }
+
+  function handleLogout() {
+    window.FB.logout(() => checkLoginState(onStoreUser));
   }
 
   return (
@@ -49,8 +55,29 @@ function Navbar({
           </LinkContainer>
         </Nav>
         {loggedIn ?
-          <div className="avatar hidden-xs">
-            <img src={pictureUrl} className="avatar-image avatar-image--icon" alt="avatar" />
+          <div className="user-menu hidden-xs">
+            <Dropdown
+              pullRight
+              id="drop-down-user"
+            >
+              <Dropdown.Toggle>
+                <img src={pictureUrl} className="avatar-image avatar-image--icon" alt="avatar" />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <MenuItem eventKey="1">
+                  <i className="fas fa-cog" />
+                  Settings
+                </MenuItem>
+                <MenuItem divider />
+                <MenuItem
+                  eventKey="2"
+                  onClick={handleLogout}
+                >
+                  <i className="fas fa-sign-out-alt" />
+                  Logout
+                </MenuItem>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         :
           <a
@@ -68,8 +95,12 @@ function Navbar({
 Navbar.propTypes = {
   role: PropTypes.number.isRequired,
   loggedIn: PropTypes.bool.isRequired,
-  pictureUrl: PropTypes.string.isRequired,
+  pictureUrl: PropTypes.string,
   onStoreUser: PropTypes.func.isRequired
+};
+
+Navbar.defaultProps = {
+  pictureUrl: ''
 };
 
 function mapStateToProps(state) {

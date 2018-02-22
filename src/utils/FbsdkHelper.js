@@ -20,6 +20,12 @@ export function checkLoginState(callback) {
       }, {
         scope: 'public_profile'
       });
+    } else {
+      // logout user
+      callback({
+        role: 1,
+        loggedIn: false
+      });
     }
   });
 }
