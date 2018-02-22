@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { storeUser } from '../../actions/user';
 import { checkLoginState } from '../../utils/FbsdkHelper';
 
+import 'airbnb-js-shims'; // for IE to support es6 and later
+
 function loadSdkAsynchronously() {
   ((d, s, id) => {
     let js = d.getElementsByTagName(s)[0];
