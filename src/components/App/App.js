@@ -8,6 +8,7 @@ import Router from '../../routes/Router';
 import { connect } from 'react-redux';
 import { storeUser } from '../../actions/user';
 import { checkLoginState } from '../../utils/FbsdkHelper';
+import CONSTANTS from '../../data/Constants';
 
 import 'airbnb-js-shims'; // for IE to support es6 and later
 
@@ -47,10 +48,10 @@ class App extends React.Component {
   setFbAsyncInit() {
     window.fbAsyncInit = () => {
       window.FB.init({
-        appId: '608323486178700',
+        appId: CONSTANTS.FB_APP_ID,
         autoLogAppEvents: true,
         xfbml: true,
-        version: 'v2.12'
+        version: CONSTANTS.FB_API_VERSION
       });
 
       this.setState({
