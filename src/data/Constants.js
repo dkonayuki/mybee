@@ -3,7 +3,8 @@ const environments = {
     URL: {
       RECIPE_API: 'http://api.mybee.life:2701/reallife-agent/v1/recipes',
       BASE_PATH: '/'
-    }
+    },
+    FB_APP_ID: '1260035304059338'
   },
   staging: { // not in used
   },
@@ -11,7 +12,8 @@ const environments = {
     URL: {
       RECIPE_API: 'http://api.mybee.life:2701/reallife-agent/v1/recipes',
       BASE_PATH: '/'
-    }
+    },
+    FB_APP_ID: '608323486178700'
   },
   test: { // for testing with jest, don't forget to mock stuff
     URL: {
@@ -26,7 +28,6 @@ const CONSTANTS = Object.assign({}, envConsts, {
   ACTION_TYPES: {
     STORE_USER: 'STORE_USER'
   },
-  FB_APP_ID: '1260035304059338',
   FB_API_VERSION: 'v2.12'
 });
 
