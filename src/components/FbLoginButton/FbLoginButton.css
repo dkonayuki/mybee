@@ -1,0 +1,10 @@
+.fb-login-btn {
+  font-size: 30px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.fb-login-btn:hover {
+  color: #3B5998;
+  cursor: pointer;
+}

@@ -4,7 +4,10 @@ import { Alert as BootstrapAlert } from 'react-bootstrap';
 
 function Alert(props) {
   return (
-    <BootstrapAlert bsStyle={props.style} onDismiss={props.onDismiss}>
+    <BootstrapAlert
+      bsStyle={props.style}
+      onDismiss={props.onDismiss}
+    >
       {props.title && <h4>{props.title}</h4>}
       <p>{props.message}</p>
     </BootstrapAlert>
@@ -21,7 +24,7 @@ Alert.propTypes = {
 Alert.defaultProps = {
   title: '',
   style: 'success',
-  onDismiss: () => null
+  onDismiss: null
 };
 
 export default Alert;

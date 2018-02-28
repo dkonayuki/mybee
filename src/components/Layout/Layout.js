@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { Helmet } from 'react-helmet';
+import Page from '../Page';
 
 import './Layout.css';
 
@@ -16,7 +17,9 @@ function Layout({
       </Helmet>
       <div className="wrapper">
         <Navbar />
-        {children}
+        <Page>
+          {children}
+        </Page>
       </div>
       <Footer />
     </div>

@@ -1,33 +1,27 @@
-export function checkLoginState(callback) {
-  window.FB.getLoginStatus((response) => {
-    if (response.authResponse) {
-      const {
-        userID: id,
-        accessToken
-      } = response.authResponse;
-
-      // get profile picture
-      window.FB.api(`/${id}/picture`, ({ data }) => {
-        if (callback !== undefined) {
-          callback({
-            id,
-            accessToken,
-            pictureUrl: data.url,
-            role: 2,
-            loggedIn: true
-          });
-        }
-      }, {
-        scope: 'public_profile'
-      });
-    } else {
-      // logout user
-      callback({
-        role: 1,
-        loggedIn: false
-      });
-    }
+export async function getLoginStatus() {
+  return new Promise((resolve, reject) => {
+    window.FB.getLoginStatus((response) => {
+      const { error } = response;
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
   });
 }
 
-export default checkLoginState;
+export async function getProfilePicture(id) {
+  return new Promise((resolve, reject) => {
+    window.FB.api(`/${id}/picture?redirect=false`, (response) => {
+      const { data, error } = response;
+      if (error) {
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    }, {
+      scope: 'public_profile'
+    });
+  });
+}

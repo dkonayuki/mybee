@@ -1,17 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Alert from '../Alert';
+import { connect } from 'react-redux';
+import { clearAlert } from '../../actions/alert';
 
 import './Page.css';
 
-function Page({ showAlert, alert, onAlertDismiss, children }) {
+function Page({
+  alert,
+  onClearAlert,
+  children
+}) {
+  const { className, title, message, style } = alert;
   return (
     <div className="page">
-      <div className={`page__alert ${alert.className || ''}`}>
-        {showAlert &&
+      <div className={`page__alert ${className || ''}`}>
+        {alert.show &&
         <Alert
-          title={alert.title} message={alert.message}
-          style={alert.style} onDismiss={onAlertDismiss}
+          title={title}
+          message={message}
+          style={style}
+          onDismiss={onClearAlert}
         />}
       </div>
       <div className="page__content">
@@ -22,22 +31,21 @@ function Page({ showAlert, alert, onAlertDismiss, children }) {
 }
 
 Page.propTypes = {
-  showAlert: PropTypes.bool,
-  alert: PropTypes.object,
+  alert: PropTypes.object.isRequired,
   children: PropTypes.node,
-  onAlertDismiss: PropTypes.func
+  onClearAlert: PropTypes.func.isRequired
 };
 
 Page.defaultProps = {
-  showAlert: false,
-  children: '',
-  alert: {
-    title: '',
-    message: '',
-    style: '',
-    className: ''
-  },
-  onAlertDismiss: () => null
+  children: null
 };
 
-export default Page;
+function mapStateToProps(state) {
+  const { alert } = state;
+  return { alert };
+}
+
+export default connect(
+  mapStateToProps,
+  { onClearAlert: clearAlert }
+)(Page);

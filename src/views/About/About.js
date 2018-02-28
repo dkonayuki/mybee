@@ -1,11 +1,10 @@
 import React from 'react';
-import Page from '../../components/Page';
 import Box from '../../components/Box';
 import { Helmet } from 'react-helmet';
 
 function About() {
   return (
-    <Page>
+    <div>
       <Helmet>
         <title>About</title>
       </Helmet>
@@ -19,7 +18,7 @@ function About() {
         <br />
         <p>Maecenas at pharetra erat. Morbi sed congue enim. Nam bibendum magna sed ligula egestas, quis elementum metus lobortis. Maecenas a dignissim magna. Proin non pellentesque enim. Nulla facilisi. Maecenas mollis accumsan odio id ultrices. Etiam non neque in purus dignissim finibus. Nulla dignissim, magna eget viverra gravida, magna erat efficitur ligula, vitae semper ipsum tellus a purus. Curabitur pharetra enim non nibh condimentum, eget vulputate dolor efficitur. Fusce ac dolor egestas, placerat nisl fringilla, ultricies mi. Phasellus fringilla convallis ex, vitae ornare metus.</p>
       </Box>
-    </Page>
+    </div>
   );
 }
 

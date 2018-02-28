@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 import Router from '../../routes/Router';
 import { connect } from 'react-redux';
 import { storeUser } from '../../actions/user';
-import { checkLoginState } from '../../utils/FbsdkHelper';
+import {
+  getLoginStatus,
+  getProfilePicture
+} from '../../utils/FbsdkHelper';
 import CONSTANTS from '../../data/Constants';
 
 import 'airbnb-js-shims'; // for IE to support es6 and later
@@ -26,9 +29,6 @@ function loadSdkAsynchronously() {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isFbSdkLoaded: false
-    };
 
     this.setFbAsyncInit = this.setFbAsyncInit.bind(this);
   }
@@ -38,26 +38,40 @@ class App extends React.Component {
     loadSdkAsynchronously();
   }
 
-  componentDidUpdate() {
-    if (this.state.isFbSdkLoaded && !this.props.loggedIn) {
-      // check login and store user information
-      checkLoginState(this.props.storeUser);
-    }
-  }
-
   setFbAsyncInit() {
     window.fbAsyncInit = () => {
       window.FB.init({
         appId: CONSTANTS.FB_APP_ID,
         autoLogAppEvents: true,
         xfbml: true,
-        version: CONSTANTS.FB_API_VERSION
+        version: CONSTANTS.FB_API_VERSION,
+        cookie: true // use cookie to persist login state
       });
 
-      this.setState({
-        isFbSdkLoaded: true
-      });
+      this.checkLoginState();
     };
+  }
+
+  async checkLoginState() {
+    const response = await getLoginStatus();
+    if (response.authResponse) {
+      // authorized
+      this.storeUserInfo(response.authResponse);
+    }
+  }
+
+  async storeUserInfo({ userID: id, accessToken }) {
+    // get profile picture
+    const data = await getProfilePicture(id);
+    if (data) {
+      this.props.onStoreUser({
+        id,
+        accessToken,
+        pictureUrl: data.url,
+        role: 2,
+        loggedIn: true
+      });
+    }
   }
 
   render() {
@@ -66,16 +80,10 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
-  storeUser: PropTypes.func.isRequired
+  onStoreUser: PropTypes.func.isRequired
 };
 
-function mapStateToProps(state) {
-  const { loggedIn } = state.user;
-  return { loggedIn };
-}
-
 export default connect(
-  mapStateToProps,
-  { storeUser } // mapDispatchToProps
+  null,
+  { onStoreUser: storeUser } // mapDispatchToProps
 )(App);

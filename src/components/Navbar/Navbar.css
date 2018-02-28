@@ -20,18 +20,6 @@
 .navbar-default .navbar-nav li:hover {
 }
 
-.fb-login-btn {
-  font-size: 30px;
-  color: #666;
-  float: right;
-  margin-top: 5px;
-}
-
-.fb-login-btn:hover {
-  color: #3B5998;
-  cursor: pointer;
-}
-
 .user-menu {
   display: block;
   white-space: nowrap;
@@ -39,7 +27,6 @@
   text-overflow: ellipsis;
   line-height: normal;
   position: relative;
-  float: right;
   font-size: 13px;
 }
 
