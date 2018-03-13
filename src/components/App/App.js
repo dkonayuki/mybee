@@ -12,6 +12,9 @@ import {
   getProfilePicture
 } from '../../utils/FbsdkHelper';
 import CONSTANTS from '../../data/Constants';
+import {
+  BrowserRouter // need this to wrap withRouter
+} from 'react-router-dom';
 
 import 'airbnb-js-shims'; // for IE to support es6 and later
 
@@ -75,7 +78,11 @@ class App extends React.Component {
   }
 
   render() {
-    return <Router />;
+    return (
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    );
   }
 }
 
