@@ -54,7 +54,7 @@ a:focus {
 }
 
 .btn {
-  border-radius: 0 !important;
+  border-radius: 0;
   font-size: 13px;
 }
 
