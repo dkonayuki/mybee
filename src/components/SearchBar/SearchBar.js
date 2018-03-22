@@ -18,6 +18,11 @@ function SearchBar({
     onChange(e.target.value);
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSubmit();
+  }
+
   return (
     <form className="search-bar">
       <FormControl
@@ -28,7 +33,7 @@ function SearchBar({
       <Button
         className="search-bar__btn"
         type="submit"
-        onClick={onSubmit}
+        onClick={handleSubmit}
       >
         <img src={BeeImg} alt="" />
       </Button>

@@ -16,6 +16,7 @@ import {
 } from '../../utils/FbsdkHelper';
 import FbLoginButton from '../FbLoginButton';
 import { showMessage } from '../../actions/alert';
+import CONSTANTS from '../../data/Constants';
 
 import './Navbar.css';
 
@@ -41,7 +42,7 @@ function Navbar({
         loggedIn: true
       });
 
-      onShowMessage('Welcome!');
+      onShowMessage(CONSTANTS.ALERT.MESSAGE.WELCOME);
     }
   }
 
