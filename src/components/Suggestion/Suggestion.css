@@ -1,0 +1,14 @@
+.suggestion {
+  border-radius: 6px;
+  color: #666;
+  border: 1px solid #aaa;
+  display: inline-block;
+  padding: 3px 7px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  color: #000;
+  border-color: #666;
+}
