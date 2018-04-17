@@ -11,14 +11,16 @@
 .message--user > .message__text {
   background: #3498DB;
   color: #fff;
+  display: inline-block;
 }
 
 .message--mybee {
   text-align: right;
+  margin-right: 10px;
 }
 
 .message--mybee > .message__text {
   background: #f0ad4e;
   color: #fff;
-
+  display: inline-block;
 }

@@ -21,10 +21,13 @@ function ChatBox({
   return (
     <Scrollbars
       className="chatbox"
-      style={{ width: 500 }}
+      style={{ width: 600 }}
       autoHeight
       autoHeightMin={50}
       autoHeightMax={200}
+      autoHide
+      autoHideTimeout={1000}
+      autoHideDuration={200}
     >
       {messageList}
     </Scrollbars>

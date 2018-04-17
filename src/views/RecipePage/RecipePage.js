@@ -30,14 +30,18 @@ class RecipePage extends React.Component {
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleQuickChat = this.handleQuickChat.bind(this);
+    this.updateDirectives = this.updateDirectives.bind(this);
+    this.updateRecipes = this.updateRecipes.bind(this);
   }
 
   async componentDidMount() {
     try {
-      // const response = await quickChat(this.props.id, CONSTANTS.CHAT.PAYLOAD.START);
+      const response = await quickChat(this.props.id, CONSTANTS.CHAT.PAYLOAD.START);
+      this.updateDirectives(response);
+
       // add messages to redux store
-      // const message = response.responseMessage || response.quickReplyMessage;
-      // this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
+      const message = response.responseMessage || response.quickReplyMessage;
+      this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
     } catch (error) {
       this.props.onShowError(error.toString());
     }
@@ -60,20 +64,8 @@ class RecipePage extends React.Component {
 
     try {
       const response = await chat(this.props.id, this.state.query);
-      let recipes = response.recipeInfoConceptObject.results;
-      console.log(response);
-      recipes = recipes.map(recipe => ({
-        author: recipe.searchResult.author,
-        id: recipe.searchResult.recipeId,
-        name: recipe.searchResult.result.basicInfo.name.originalName,
-        imageUrl: recipe.searchResult.result.basicInfo.image.photoUrls.originPhotoUrl,
-        source: `${CONSTANTS.URL.RECIPE_SOURCE}/${recipe.searchResult.recipeId}`
-      }));
-
-      this.setState({
-        directives: response.quickReplies,
-        recipes
-      });
+      this.updateRecipes(response);
+      this.updateDirectives(response);
 
       // add messages to redux store
       const message = response.responseMessage || response.quickReplyMessage;
@@ -83,9 +75,38 @@ class RecipePage extends React.Component {
     }
   }
 
-  async handleQuickChat(payload, payloadText = '') {
+  updateRecipes(response) {
+    if (response.recipeInfoConceptObject && response.recipeInfoConceptObject.results) {
+      let recipes = response.recipeInfoConceptObject.results;
+      recipes = recipes.map(recipe => ({
+        author: recipe.searchResult.author,
+        id: recipe.searchResult.recipeId,
+        name: recipe.searchResult.result.basicInfo.name.originalName,
+        imageUrl: recipe.searchResult.result.basicInfo.image.photoUrls.originPhotoUrl,
+        source: `${CONSTANTS.URL.RECIPE_SOURCE}/${recipe.searchResult.recipeId}`
+      }));
+
+      this.setState({
+        recipes
+      });
+    }
+  }
+
+  updateDirectives(response) {
+    this.setState({
+      directives: response.quickReplies || []
+    });
+  }
+
+  async handleQuickChat(payload, payloadText) {
+    // add messages to redux store
+    this.props.onAddMessage(payloadText, CONSTANTS.CHAT.MESSAGE.TYPE.USER);
+
     try {
       const response = await quickChat(this.props.id, payload, payloadText);
+      this.updateRecipes(response);
+      this.updateDirectives(response);
+
       // add messages to redux store
       const message = response.responseMessage || response.quickReplyMessage;
       this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);

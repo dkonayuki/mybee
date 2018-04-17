@@ -10,9 +10,9 @@ function Message({
 }) {
   return (
     <div className={`message ${type === CONSTANTS.CHAT.MESSAGE.TYPE.USER ? 'message--user' : 'message--mybee'}`}>
-      <span className="message__text">
+      <div className="message__text">
         {text}
-      </span>
+      </div>
     </div>
   );
 }
