@@ -9,7 +9,7 @@ function Directive({
 }) {
   return (
     <div
-      className="suggestion"
+      className="directive"
       onClick={onClick}
     >
       {text}

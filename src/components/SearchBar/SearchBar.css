@@ -4,9 +4,17 @@
 }
 
 .search-bar input {
-  width: 60%;
+  width: 50%;
   margin-right: 20px;
   display: inline-block;
+  font-size: 13px;
+}
+
+@media (max-width: 767px) {
+  .search-bar input {
+    width: 80%;
+    max-width: 200px;
+  }
 }
 
 .search-bar__btn img {

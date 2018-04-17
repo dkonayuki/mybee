@@ -35,15 +35,20 @@ class RecipePage extends React.Component {
   }
 
   async componentDidMount() {
-    try {
-      const response = await quickChat(this.props.id, CONSTANTS.CHAT.PAYLOAD.START);
-      this.updateDirectives(response);
+    if (this.props.isNew) {
+      try {
+        const response = await quickChat(this.props.id, CONSTANTS.CHAT.PAYLOAD.START);
+        console.log(response);
+        this.updateDirectives(response);
 
-      // add messages to redux store
-      const message = response.responseMessage || response.quickReplyMessage;
-      this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
-    } catch (error) {
-      this.props.onShowError(error.toString());
+        // add messages to redux store
+        const message = response.responseMessage || response.quickReplyMessage || null;
+        if (message) {
+          this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
+        }
+      } catch (error) {
+        this.props.onShowError(error.toString());
+      }
     }
   }
 
@@ -54,24 +59,28 @@ class RecipePage extends React.Component {
   }
 
   async handleSubmit() {
-    // add messages to redux store
-    this.props.onAddMessage(this.state.query, CONSTANTS.CHAT.MESSAGE.TYPE.USER);
-
-    // clear current query
-    this.setState({
-      query: ''
-    });
-
-    try {
-      const response = await chat(this.props.id, this.state.query);
-      this.updateRecipes(response);
-      this.updateDirectives(response);
-
+    if (this.state.query !== '') {
       // add messages to redux store
-      const message = response.responseMessage || response.quickReplyMessage;
-      this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
-    } catch (error) {
-      this.props.onShowError(error.toString());
+      this.props.onAddMessage(this.state.query, CONSTANTS.CHAT.MESSAGE.TYPE.USER);
+
+      // clear current query
+      this.setState({
+        query: ''
+      });
+
+      try {
+        const response = await chat(this.props.id, this.state.query);
+        this.updateRecipes(response);
+        this.updateDirectives(response);
+
+        // add messages to redux store
+        const message = response.responseMessage || response.quickReplyMessage || null;
+        if (message) {
+          this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
+        }
+      } catch (error) {
+        this.props.onShowError(error.toString());
+      }
     }
   }
 
@@ -151,7 +160,7 @@ class RecipePage extends React.Component {
             onSubmit={this.handleSubmit}
           />
           {directives &&
-            <div className="suggestion-list">
+            <div className="directive-list">
               {directives}
             </div>
           }
@@ -170,12 +179,14 @@ class RecipePage extends React.Component {
 RecipePage.propTypes = {
   onAddMessage: PropTypes.func.isRequired, // eslint-disable-line
   onShowError: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired // eslint-disable-line
+  id: PropTypes.string.isRequired, // eslint-disable-line
+  isNew: PropTypes.bool.isRequired // eslint-disable-line
 };
 
 function mapStateToProps(state) {
   const { id } = state.user;
-  return { id };
+  const isNew = state.chat.length === 0;
+  return { id, isNew };
 }
 
 export default connect(

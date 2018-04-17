@@ -72,7 +72,7 @@ function Navbar({
   }
 
   return (
-    <BootstrapNavbar>
+    <BootstrapNavbar collapseOnSelect>
       <BootstrapNavbar.Header>
         <BootstrapNavbar.Brand>
           <Link to="/home">
