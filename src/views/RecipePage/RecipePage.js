@@ -4,10 +4,16 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import Box from '../../components/Box';
 import SearchBar from '../../components/SearchBar';
-import { discover } from '../../utils/ApiHelper';
+import {
+  chat,
+  quickChat
+} from '../../utils/ApiHelper';
 import { showError } from '../../actions/alert';
-import Recipe from '../../components/Recipe';
-import Suggestion from '../../components/Suggestion';
+import { addMessage } from '../../actions/chat';
+import RecipeContainer from '../../components/RecipeContainer';
+import Directive from '../../components/Directive';
+import CONSTANTS from '../../data/Constants';
+import ChatBox from '../../components/ChatBox';
 
 import './RecipePage.css';
 
@@ -16,74 +22,96 @@ class RecipePage extends React.Component {
     super(props);
     this.state = {
       query: '',
-      suggestions: [],
+      directives: [],
       recipes: []
     };
     this.timeoutHandle = null;
 
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSuggest = this.handleSuggest.bind(this);
+    this.handleQuickChat = this.handleQuickChat.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      // const response = await quickChat(this.props.id, CONSTANTS.CHAT.PAYLOAD.START);
+      // add messages to redux store
+      // const message = response.responseMessage || response.quickReplyMessage;
+      // this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
+    } catch (error) {
+      this.props.onShowError(error.toString());
+    }
   }
 
   handleQueryChange(value) {
     this.setState({
       query: value
     });
-
-    clearTimeout(this.timeoutHandle);
-    if (value !== '') {
-      // after 3s, auto submit
-      this.timeoutHandle = setTimeout(this.handleSubmit, 3000);
-    }
   }
 
   async handleSubmit() {
-    // clear timeout
-    clearTimeout(this.timeoutHandle);
+    // add messages to redux store
+    this.props.onAddMessage(this.state.query, CONSTANTS.CHAT.MESSAGE.TYPE.USER);
+
+    // clear current query
+    this.setState({
+      query: ''
+    });
 
     try {
-      const response = await discover(this.props.id, this.state.query);
+      const response = await chat(this.props.id, this.state.query);
       let recipes = response.recipeInfoConceptObject.results;
       console.log(response);
       recipes = recipes.map(recipe => ({
         author: recipe.searchResult.author,
         id: recipe.searchResult.recipeId,
         name: recipe.searchResult.result.basicInfo.name.originalName,
-        imageUrl: recipe.searchResult.result.basicInfo.image.photoUrls.mediumPhotoUrl
+        imageUrl: recipe.searchResult.result.basicInfo.image.photoUrls.originPhotoUrl,
+        source: `${CONSTANTS.URL.RECIPE_SOURCE}/${recipe.searchResult.recipeId}`
       }));
 
       this.setState({
-        suggestions: response.quickReplies,
+        directives: response.quickReplies,
         recipes
       });
+
+      // add messages to redux store
+      const message = response.responseMessage || response.quickReplyMessage;
+      this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
     } catch (error) {
       this.props.onShowError(error.toString());
     }
   }
 
-  async handleSuggest(payload) {
-    console.log(payload);
+  async handleQuickChat(payload, payloadText = '') {
+    try {
+      const response = await quickChat(this.props.id, payload, payloadText);
+      // add messages to redux store
+      const message = response.responseMessage || response.quickReplyMessage;
+      this.props.onAddMessage(message, CONSTANTS.CHAT.MESSAGE.TYPE.MYBEE);
+    } catch (error) {
+      this.props.onShowError(error.toString());
+    }
   }
 
   render() {
     let recipes = '';
     if (this.state.recipes.length > 0) {
       recipes = this.state.recipes.map(recipe => (
-        <Recipe
+        <RecipeContainer
           key={recipe.id}
           recipe={recipe}
         />
       ));
     }
 
-    let suggestions = '';
-    if (this.state.suggestions.length > 0) {
-      suggestions = this.state.suggestions.map(suggestion => (
-        <Suggestion
-          key={suggestion.title}
-          text={suggestion.title}
-          onClick={() => this.handleSuggest(suggestion.payload)}
+    let directives = '';
+    if (this.state.directives.length > 0) {
+      directives = this.state.directives.map(directive => (
+        <Directive
+          key={directive.title}
+          text={directive.title}
+          onClick={() => this.handleQuickChat(directive.payload, directive.title)}
         />
       ));
     }
@@ -101,13 +129,14 @@ class RecipePage extends React.Component {
             onChange={this.handleQueryChange}
             onSubmit={this.handleSubmit}
           />
-          {suggestions &&
+          <ChatBox />
+          {directives &&
             <div className="suggestion-list">
-              {suggestions}
+              {directives}
             </div>
           }
           {recipes &&
-            <div>
+            <div className="recipe-list">
               {recipes}
             </div>
           }
@@ -118,8 +147,9 @@ class RecipePage extends React.Component {
 }
 
 RecipePage.propTypes = {
+  onAddMessage: PropTypes.func.isRequired, // eslint-disable-line
   onShowError: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired // eslint-disable-line
 };
 
 function mapStateToProps(state) {
@@ -129,5 +159,8 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { onShowError: showError } // mapDispatchToProps
+  {
+    onShowError: showError,
+    onAddMessage: addMessage
+  } // mapDispatchToProps
 )(RecipePage);

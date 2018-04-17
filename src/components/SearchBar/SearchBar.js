@@ -29,6 +29,7 @@ function SearchBar({
         type="text"
         value={value}
         onChange={handleInputChange}
+        autoFocus
       />
       <Button
         className="search-bar__btn"

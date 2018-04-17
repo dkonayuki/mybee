@@ -1,0 +1,10 @@
+.ingredient {
+  font-size: 11px;
+  line-height: 15px;
+  white-space: nowrap;
+  height: 15px;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}

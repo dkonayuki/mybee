@@ -64,7 +64,7 @@ function Navbar({
         // logout user if unauthorized
         logoutUser();
       }
-    });
+    }, { scope: 'public_profile,email' });
   }
 
   function handleLogout() {

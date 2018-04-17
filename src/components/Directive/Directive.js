@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './Suggestion.css';
+import './Directive.css';
 
-function Suggestion({
+function Directive({
   text,
   onClick
 }) {
@@ -17,14 +17,14 @@ function Suggestion({
   );
 }
 
-Suggestion.propTypes = {
+Directive.propTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func
 };
 
-Suggestion.defaultProps = {
+Directive.defaultProps = {
   text: '',
   onClick: null
 };
 
-export default Suggestion;
+export default Directive;

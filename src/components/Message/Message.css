@@ -1,0 +1,24 @@
+.message {
+  display: block;
+  margin: 12px 0;
+}
+
+.message__text {
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.message--user > .message__text {
+  background: #3498DB;
+  color: #fff;
+}
+
+.message--mybee {
+  text-align: right;
+}
+
+.message--mybee > .message__text {
+  background: #f0ad4e;
+  color: #fff;
+
+}

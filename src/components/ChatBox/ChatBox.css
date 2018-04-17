@@ -1,0 +1,7 @@
+.chatbox {
+  margin: 20px auto;
+}
+
+.chatbox:hover {
+  border-color: #ddd;
+}

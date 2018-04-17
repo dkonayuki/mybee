@@ -9,7 +9,8 @@ import { connect } from 'react-redux';
 import { storeUser } from '../../actions/user';
 import {
   getLoginStatus,
-  getProfilePicture
+  getProfilePicture,
+  getUserInfo
 } from '../../utils/FbsdkHelper';
 import CONSTANTS from '../../data/Constants';
 import {
@@ -36,10 +37,12 @@ class App extends React.Component {
     this.setFbAsyncInit = this.setFbAsyncInit.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setFbAsyncInit();
     loadSdkAsynchronously();
   }
+
+  // TODO use componentDidCatch for client side error
 
   setFbAsyncInit() {
     window.fbAsyncInit = () => {
@@ -57,9 +60,13 @@ class App extends React.Component {
 
   async checkLoginState() {
     const response = await getLoginStatus();
+    console.log(response);
     if (response.authResponse) {
       // authorized
       this.storeUserInfo(response.authResponse);
+
+      const userinfo = await getUserInfo(response.authResponse.userID);
+      console.log(userinfo);
     }
   }
 
