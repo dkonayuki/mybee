@@ -150,12 +150,12 @@ class RecipePage extends React.Component {
             onChange={this.handleQueryChange}
             onSubmit={this.handleSubmit}
           />
-          <ChatBox />
           {directives &&
             <div className="suggestion-list">
               {directives}
             </div>
           }
+          <ChatBox />
           {recipes &&
             <div className="recipe-list">
               {recipes}
