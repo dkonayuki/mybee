@@ -14,6 +14,7 @@ const recipe = PropTypes.shape({
   author: PropTypes.string,
   source: PropTypes.string,
   description: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
   ingredients: PropTypes.arrayOf(ingredient)
 });
 
@@ -23,10 +24,17 @@ const message = PropTypes.shape({
   timestamp: PropTypes.number.isRequired
 });
 
+const video = PropTypes.shape({
+  source: PropTypes.string.isRequired,
+  recipeId: PropTypes.string,
+  videoType: PropTypes.number.isRequired
+});
+
 const MyBeePropTypes = {
   recipe,
   ingredient,
-  message
+  message,
+  video
 };
 
 export default MyBeePropTypes;

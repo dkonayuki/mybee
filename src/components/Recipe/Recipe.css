@@ -1,7 +1,7 @@
 .recipe {
   display: inline-block;
   width: 330px;
-  height: 280px;
+  height: 315px;
   border: 1px solid #ccc;
   margin: 10px;
   display: relative;
@@ -27,6 +27,19 @@
   -webkit-line-clamp: 1;
   overflow: hidden;
   padding: 0 4px;
+}
+
+.recipe__desc {
+  font-size: 12px;
+  line-height: 16px;
+  height: 32px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  padding: 2px 8px;
+  margin-bottom: 5px;
+  overflow: hidden;
 }
 
 .recipe__author {

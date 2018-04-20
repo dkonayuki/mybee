@@ -6,6 +6,8 @@ import MyBeePropTypes from '../../data/MyBeePropTypes';
 import withSpinner from '../withSpinner';
 import { connect } from 'react-redux';
 import { showError } from '../../actions/alert';
+import { addVideo } from '../../actions/video';
+import CONSTANTS from '../../data/Constants';
 
 class RecipeContainer extends React.Component {
   constructor(props) {
@@ -20,17 +22,31 @@ class RecipeContainer extends React.Component {
 
     try {
       const info = await getRecipeInfo(this.state.recipe.id);
-      const { description } = info.result.recipe.recipe;
+      const {
+        intro: description,
+        tags
+      } = info.result.recipe.recipe;
       const ingredients = info.result.recipeSummary.ingredients.ingredientRefs.map(ingredient => ({
         name: ingredient.displayIngredient,
         display: ingredient.ingredientLine
       }));
 
-      this.setState({
+      // add videos to redux store
+      const { relatedYoutubeVideoIds: videoList } = info.result.recipeSummary;
+
+      videoList.forEach(video => this.props.onAddVideo(
+        video,
+        this.state.recipe.id,
+        CONSTANTS.VIDEO.TYPE.YOUTUBE
+      ));
+
+      // setState in async componentDidMount is fine
+      this.setState({ // eslint-disable-line
         recipe: {
           ...this.state.recipe,
-          description,
-          ingredients
+          description: description || '',
+          ingredients,
+          tags: tags || []
         }
       });
 
@@ -53,6 +69,7 @@ class RecipeContainer extends React.Component {
 
 RecipeContainer.propTypes = {
   onShowError: PropTypes.func.isRequired,
+  onAddVideo: PropTypes.func.isRequired,
   recipe: MyBeePropTypes.recipe,
   showSpinner: PropTypes.func.isRequired,
   hideSpinner: PropTypes.func.isRequired
@@ -64,5 +81,8 @@ RecipeContainer.defaultProps = {
 
 export default connect(
   null, // mapStateToProps
-  { onShowError: showError } // mapDispatchToProps
+  {
+    onShowError: showError,
+    onAddVideo: addVideo
+  } // mapDispatchToProps
 )(withSpinner(RecipeContainer));

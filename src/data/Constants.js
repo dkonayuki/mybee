@@ -33,12 +33,15 @@ const environments = {
 const envConsts = environments[process.env.NODE_ENV];
 
 const CONSTANTS = Object.assign({}, envConsts, {
+  YOUTUBE_EMBED_URL: 'https://www.youtube.com/embed',
   ACTION_TYPES: {
     STORE_USER: 'STORE_USER',
     SHOW_ERROR: 'SHOW_ERROR',
     SHOW_MESSAGE: 'SHOW_MESSAGE',
     CLEAR_ALERT: 'CLEAR_ALERT',
-    ADD_MESSAGE: 'ADD_MESSAGE'
+    ADD_MESSAGE: 'ADD_MESSAGE',
+    ADD_VIDEO: 'ADD_VIDEO',
+    REMOVE_ALL_VIDEOS: 'REMOVE_ALL_VIDEOS'
   },
   FB_API_VERSION: 'v2.12',
   ALERT: {
@@ -61,6 +64,13 @@ const CONSTANTS = Object.assign({}, envConsts, {
     PAYLOAD: {
       START: 'GET_STARTED_PAYLOAD'
     }
+  },
+  VIDEO: {
+    TYPE: {
+      YOUTUBE: 0,
+      OTHER: 1
+    },
+    NUMBER: 6
   }
 });
 

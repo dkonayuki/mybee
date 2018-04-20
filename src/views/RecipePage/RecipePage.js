@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MyBeePropTypes from '../../data/MyBeePropTypes';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import Box from '../../components/Box';
@@ -10,10 +11,12 @@ import {
 } from '../../utils/ApiHelper';
 import { showError } from '../../actions/alert';
 import { addMessage } from '../../actions/chat';
+import { removeAllVideos } from '../../actions/video';
 import RecipeContainer from '../../components/RecipeContainer';
 import Directive from '../../components/Directive';
 import CONSTANTS from '../../data/Constants';
 import ChatBox from '../../components/ChatBox';
+import Video from '../../components/Video';
 
 import './RecipePage.css';
 
@@ -63,6 +66,8 @@ class RecipePage extends React.Component {
       // add messages to redux store
       this.props.onAddMessage(this.state.query, CONSTANTS.CHAT.MESSAGE.TYPE.USER);
 
+      this.props.onRemoveAllVideos();
+
       // clear current query
       this.setState({
         query: ''
@@ -111,6 +116,8 @@ class RecipePage extends React.Component {
     // add messages to redux store
     this.props.onAddMessage(payloadText, CONSTANTS.CHAT.MESSAGE.TYPE.USER);
 
+    this.props.onRemoveAllVideos();
+
     try {
       const response = await quickChat(this.props.id, payload, payloadText);
       this.updateRecipes(response);
@@ -125,26 +132,27 @@ class RecipePage extends React.Component {
   }
 
   render() {
-    let recipes = '';
-    if (this.state.recipes.length > 0) {
-      recipes = this.state.recipes.map(recipe => (
-        <RecipeContainer
-          key={recipe.id}
-          recipe={recipe}
-        />
-      ));
-    }
+    const recipes = this.state.recipes.map(recipe => (
+      <RecipeContainer
+        key={recipe.id}
+        recipe={recipe}
+      />
+    ));
 
-    let directives = '';
-    if (this.state.directives.length > 0) {
-      directives = this.state.directives.map(directive => (
-        <Directive
-          key={directive.title}
-          text={directive.title}
-          onClick={() => this.handleQuickChat(directive.payload, directive.title)}
-        />
-      ));
-    }
+    const directives = this.state.directives.map(directive => (
+      <Directive
+        key={directive.title}
+        text={directive.title}
+        onClick={() => this.handleQuickChat(directive.payload, directive.title)}
+      />
+    ));
+
+    const videos = this.props.videoList.slice(0, CONSTANTS.VIDEO.NUMBER).map(video => (
+      <Video
+        key={video.source}
+        {...video}
+      />
+    ));
 
     return (
       <div>
@@ -159,15 +167,22 @@ class RecipePage extends React.Component {
             onChange={this.handleQueryChange}
             onSubmit={this.handleSubmit}
           />
-          {directives &&
+          {directives.length > 0 &&
             <div className="directive-list">
               {directives}
             </div>
           }
           <ChatBox />
-          {recipes &&
+          {recipes.length > 0 &&
             <div className="recipe-list">
               {recipes}
+            </div>
+          }
+          {videos.length > 0 &&
+            <div className="video-list">
+              <hr />
+              <p>Related Videos</p>
+              {videos}
             </div>
           }
         </Box>
@@ -179,20 +194,29 @@ class RecipePage extends React.Component {
 RecipePage.propTypes = {
   onAddMessage: PropTypes.func.isRequired, // eslint-disable-line
   onShowError: PropTypes.func.isRequired,
+  onRemoveAllVideos: PropTypes.func.isRequired, // eslint-disable-line
   id: PropTypes.string.isRequired, // eslint-disable-line
-  isNew: PropTypes.bool.isRequired // eslint-disable-line
+  isNew: PropTypes.bool.isRequired, // eslint-disable-line
+  videoList: PropTypes.arrayOf(MyBeePropTypes.video) // eslint-disable-line
 };
 
 function mapStateToProps(state) {
   const { id } = state.user;
   const isNew = state.chat.length === 0;
-  return { id, isNew };
+  const { video: videoList } = state;
+
+  return {
+    id,
+    isNew,
+    videoList
+  };
 }
 
 export default connect(
   mapStateToProps,
   {
     onShowError: showError,
-    onAddMessage: addMessage
+    onAddMessage: addMessage,
+    onRemoveAllVideos: removeAllVideos
   } // mapDispatchToProps
 )(RecipePage);
