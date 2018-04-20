@@ -17,6 +17,10 @@
   overflow: hidden;
 }
 
+.recipe__image img {
+  min-width: 100%;
+}
+
 .recipe__name {
   text-align: center;
   font-weight: 700;
