@@ -57,7 +57,7 @@ function Navbar({
   function handleLogin() {
     // perform login
     window.FB.login((response) => {
-      if (response.authResponse) {
+      if (response.status === 'connected') {
         // authorized
         storeUserInfo(response.authResponse);
       } else {

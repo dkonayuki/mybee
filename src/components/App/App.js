@@ -9,8 +9,7 @@ import { connect } from 'react-redux';
 import { storeUser } from '../../actions/user';
 import {
   getLoginStatus,
-  getProfilePicture,
-  getUserInfo
+  getProfilePicture
 } from '../../utils/FbsdkHelper';
 import CONSTANTS from '../../data/Constants';
 import {
@@ -60,13 +59,11 @@ class App extends React.Component {
 
   async checkLoginState() {
     const response = await getLoginStatus();
-    console.log(response);
-    if (response.authResponse) {
+    if (response.status === 'connected') {
       // authorized
       this.storeUserInfo(response.authResponse);
 
-      const userinfo = await getUserInfo(response.authResponse.userID);
-      console.log(userinfo);
+      // const userinfo = await getUserInfo(response.authResponse.userID);
     }
   }
 
